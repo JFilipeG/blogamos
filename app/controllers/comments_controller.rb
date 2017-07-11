@@ -1,11 +1,11 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:edit, :update, :destroy]
+  before_action :set_post, only: [:create, :new]
 
   def create
-    @post = Post.find(params[:post_id])
-    comment = @post.comments.new(comment_params)
-    if comment.save
-      redirect_to @post, notice: 'Post was successfully created.'
+    @comment = @post.comments.new(comment_params)
+    if @comment.save
+      redirect_to @post, notice: 'Comment was successfully created.'
     else
       render :new
     end
@@ -13,27 +13,31 @@ class CommentsController < ApplicationController
 
   def update
     if @comment.update(comment_params)
-      redirect_to @comment.post
+      redirect_to @comment.post, notice: 'Comment was successfully updated.'
     else
       render :edit
     end
   end
 
   def destroy
-    @post.destroy
-    redirect_to post_url @comment.post
+    @comment.destroy
+    redirect_to post_url @comment.post, notice: 'Comment was successfully destroyed.'
   end
 
   def edit
   end
 
   def new
-    @comment = Comment.new
+    @comment = @post.comments.new
   end
 
   private
 
   def set_post
+    @post = Post.find(params[:post_id])
+  end
+
+  def set_comment
     @comment = Comment.find(params[:id])
   end
 
