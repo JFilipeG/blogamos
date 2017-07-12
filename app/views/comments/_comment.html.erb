@@ -8,5 +8,7 @@
   <%= comment.author %>
 </p>
 
-<%= link_to 'Edit Comment', edit_post_comment_path(comment) %> |
-<%= link_to 'Destroy Comment', post_comment_path(comment.post, comment), method: :delete, confirm: 'Are you sure?' %>
+<% if comment.user == current_user %>
+  <%= link_to 'Edit Comment', edit_post_comment_path(comment) %> |
+  <%= link_to 'Destroy Comment', post_comment_path(comment.post, comment), method: :delete, confirm: 'Are you sure?' %>
+<% end %>

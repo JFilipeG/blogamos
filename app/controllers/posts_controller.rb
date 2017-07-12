@@ -4,7 +4,6 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
   end
 
   # GET /posts/1
@@ -59,6 +58,14 @@ class PostsController < ApplicationController
       format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def all
+    @posts = Post.all
+  end
+
+  def my
+    @posts = current_user.posts
   end
 
   private
